@@ -1,0 +1,316 @@
+<section class="list-collections" data-section-type="list-collections">
+  <div class="collections-container">
+    <div class="collections-header">
+      <h1>{{ section.settings.title }}</h1>
+      {% if section.settings.show_description %}
+        <p class="collections-desc">Explore our carefully curated categories to discover your perfect products.</p>
+      {% endif %}
+    </div>
+
+    <div class="collections-grid">
+      {% assign count = 0 %}
+      {% for collection in collections %}
+        {% unless collection.handle == 'all' or collection.handle == 'frontpage' %}
+          {% if count >= section.settings.limit %}
+            {% break %}
+          {% endif %}
+
+          <article class="collection-card">
+            <a href="{{ collection.url }}" class="collection-link">
+              <div class="collection-image">
+                {% if collection.image %}
+                  <img 
+                    src="{{ collection.image | img_url: '640x' }}" 
+                    alt="{{ collection.title }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="collection-placeholder">
+                    <span class="placeholder-text">No Image</span>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="collection-overlay">
+                <h2>{{ collection.title }}</h2>
+                {% if collection.description != blank %}
+                  <p class="collection-desc">{{ collection.description | strip_html | truncate: 120 }}</p>
+                {% endif %}
+                <span class="collection-cta">Browse Collection →</span>
+              </div>
+            </a>
+          </article>
+
+          {% assign count = count | plus: 1 %}
+        {% endunless %}
+      {% endfor %}
+    </div>
+
+    {% if count == 0 %}
+      <div class="empty-state">
+        <p>No collections available yet. Check back soon!</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .list-collections {
+    padding: 4rem 1.5rem;
+    background: #fff;
+  }
+
+  .collections-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .collections-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .collections-header h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    line-height: 1.15;
+  }
+
+  .collections-desc {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #555;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .collection-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 4 / 3;
+    min-height: 300px;
+  }
+
+  .collection-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 80px rgba(15, 23, 42, 0.14);
+  }
+
+  .collection-link {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .collection-image {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .collection-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .collection-card:hover .collection-image img {
+    transform: scale(1.08);
+  }
+
+  .collection-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+  }
+
+  .placeholder-text {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .collection-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.8) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.5rem;
+    color: #fff;
+    transition: background 0.3s ease;
+  }
+
+  .collection-card:hover .collection-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.9) 100%);
+  }
+
+  .collection-overlay h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.6rem;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .collection-overlay .collection-desc {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+  }
+
+  .collection-cta {
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+
+  .collection-card:hover .collection-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #555;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 768px) {
+    .list-collections {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .collections-header {
+      margin-bottom: 2rem;
+    }
+
+    .collections-header h1 {
+      font-size: 2rem;
+    }
+
+    .collections-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .collection-card {
+      min-height: 220px;
+    }
+
+    .collection-overlay {
+      padding: 1.5rem 1rem;
+    }
+
+    .collection-overlay h2 {
+      font-size: 1.2rem;
+    }
+
+    .collection-overlay .collection-desc {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.collection-card');
+    
+    cards.forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collections List",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection descriptions",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Maximum collections",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collections List"
+    }
+  ]
+}
+{% endschema %}
+
+{% schema %}
+{
+  "name": "Collections List",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Maximum collections",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collections List"
+    }
+  ]
+}
+{% endschema %}

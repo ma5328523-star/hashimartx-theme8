@@ -1,0 +1,91 @@
+<section class="related-products" data-section-type="related-products">
+  <div class="container">
+    <h2>{{ section.settings.title }}</h2>
+    <div class="related-grid">
+      {% assign related_collection = product.collections.first %}
+      {% if related_collection and related_collection.products.size > 1 %}
+        {% for related_product in related_collection.products limit: section.settings.limit %}
+          {% unless related_product.id == product.id %}
+            <article class="related-card">
+              <a href="{{ related_product.url }}">
+                {% if related_product.featured_image %}
+                  <img src="{{ related_product.featured_image | img_url: '600x' }}" alt="{{ related_product.title }}" loading="lazy">
+                {% endif %}
+                <h3>{{ related_product.title }}</h3>
+                <span>{{ related_product.price | money }}</span>
+              </a>
+            </article>
+          {% endunless %}
+        {% endfor %}
+      {% else %}
+        <p class="empty-state">More recommendations will appear when this product belongs to a collection.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .related-products .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .related-products .related-card {
+    border-radius: 24px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .related-products .related-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 70px rgba(15, 23, 42, 0.12);
+  }
+  .related-products .related-card img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .related-products .related-card h3 {
+    margin: 1rem;
+    font-size: 1rem;
+  }
+  .related-products .related-card span {
+    display: block;
+    margin: 0 1rem 1rem;
+    font-weight: 700;
+  }
+  .related-products .empty-state {
+    padding: 1.5rem 0;
+    color: #555;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Related Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "You may also like"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Number of products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Related Products"
+    }
+  ]
+}
+{% endschema %}

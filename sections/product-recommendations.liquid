@@ -1,0 +1,88 @@
+<section class="product-recommendations" data-section-type="product-recommendations">
+  <div class="container">
+    <h2>{{ section.settings.title }}</h2>
+    <div class="recommendations-grid">
+      {% if product.recommendations.size > 0 %}
+        {% for recommendation in product.recommendations limit: section.settings.limit %}
+          <article class="recommendation-card">
+            <a href="{{ recommendation.url }}">
+              {% if recommendation.featured_image %}
+                <img src="{{ recommendation.featured_image | img_url: '600x' }}" alt="{{ recommendation.title }}" loading="lazy">
+              {% endif %}
+              <h3>{{ recommendation.title }}</h3>
+              <span>{{ recommendation.price | money }}</span>
+            </a>
+          </article>
+        {% endfor %}
+      {% else %}
+        <p class="empty-state">We’ll show product recommendations once the store has enough related items.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-recommendations .recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .product-recommendations .recommendation-card {
+    border-radius: 24px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 22px 56px rgba(15, 23, 42, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .product-recommendations .recommendation-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 68px rgba(15, 23, 42, 0.12);
+  }
+  .product-recommendations .recommendation-card img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .product-recommendations .recommendation-card h3 {
+    margin: 1rem;
+    font-size: 1rem;
+  }
+  .product-recommendations .recommendation-card span {
+    display: block;
+    margin: 0 1rem 1rem;
+    font-weight: 700;
+  }
+  .product-recommendations .empty-state {
+    padding: 1.5rem 0;
+    color: #555;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Recommended for you"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Number of recommendations",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Recommendations"
+    }
+  ]
+}
+{% endschema %}

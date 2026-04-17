@@ -1,0 +1,64 @@
+<section class="main-collection-banner" data-section-type="main-collection-banner">
+  <div class="main-banner-wrapper">
+    {% if section.settings.banner_image != blank %}
+      <div class="main-banner-image">
+        <img src="{{ section.settings.banner_image | img_url: 'master' }}" alt="{{ section.settings.banner_heading | escape }}" loading="lazy">
+      </div>
+    {% endif %}
+    <div class="main-banner-copy">
+      <span class="banner-eyebrow">{{ section.settings.top_label }}</span>
+      <h1>{{ section.settings.banner_heading }}</h1>
+      <p>{{ section.settings.banner_text }}</p>
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="button button-primary">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main Collection Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "top_label",
+      "label": "Top label",
+      "default": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "banner_heading",
+      "label": "Heading",
+      "default": "Explore the Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_text",
+      "label": "Text",
+      "default": "Premium picks curated for your lifestyle."
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner image"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Banner"
+    }
+  ]
+}
+{% endschema %}

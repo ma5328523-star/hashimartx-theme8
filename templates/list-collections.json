@@ -1,0 +1,16 @@
+{
+  "name": "Collections List",
+  "sections": {
+    "list-collections": {
+      "type": "list-collections",
+      "settings": {
+        "title": "Shop by Category",
+        "show_description": true,
+        "limit": 12
+      }
+    }
+  },
+  "order": [
+    "list-collections"
+  ]
+}
