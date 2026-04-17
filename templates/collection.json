@@ -1,24 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "name": "Collection",
   "sections": {
     "main-collection-banner": {
       "type": "main-collection-banner",
       "settings": {
-        "banner_heading": "Explore the Collection",
-        "banner_text": "Premium picks curated for your lifestyle.",
-        "top_label": "Collection",
-        "button_text": "Shop the Collection",
-        "button_link": "/collections/all"
+        "top_label": "PREMIUM COLLECTION",
+        "banner_heading": "Health & Care",
+        "banner_text": "Discover our premium health and wellness products for a better lifestyle\"",
+        "banner_image": "shopify://shop_images/health-care-banner.png",
+        "button_text": "Explore Collection",
+        "button_link": "shopify://collections/digital-products-example-products"
       }
     },
     "main-collection-product-grid": {
       "type": "main-collection-product-grid",
       "settings": {
-        "title": "Featured products",
-        "collection": "",
-        "products_per_row": 4,
-        "limit": 8,
-        "show_price": true
+        "title": "Explore Our Digital Products",
+        "description": "Discover our curated collection of premium digital products designed to enhance your workflow and productivity.",
+        "collection": ""
       }
     }
   },

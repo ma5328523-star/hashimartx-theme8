@@ -1,63 +1,139 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "name": "Home page",
   "sections": {
     "hero-showcase": {
       "type": "hero-showcase",
       "settings": {
-        "title": "Welcome to HashiMartX",
-        "subtitle": "Premium Products for the Modern Lifestyle",
-        "image": "shopify://shop_images/hero-image.jpg",
-        "button_text": "Shop Now",
+        "title": "Welcome To \"HashiMartX\"",
+        "subtitle": "Explore the Future of Technology — Premium Gadgets, Unmatched Performance",
+        "image": "shopify://shop_images/image-is-to-describe-the-store-abouts-unique-electrical-gadgets.png",
+        "button_text": "Explore Collection",
         "button_link": "/collections/all"
       }
     },
     "dynamic-grid": {
       "type": "dynamic-grid",
-      "settings": {
-        "title": "Featured Categories",
-        "items": [
-          {
-            "title": "Electronics",
-            "image": "shopify://shop_images/category1.jpg",
-            "link": "/collections/electronics"
-          },
-          {
-            "title": "Fashion",
-            "image": "shopify://shop_images/category2.jpg",
-            "link": "/collections/fashion"
-          },
-          {
-            "title": "Home & Garden",
-            "image": "shopify://shop_images/category3.jpg",
-            "link": "/collections/home-garden"
-          },
-          {
-            "title": "Sports",
-            "image": "shopify://shop_images/category4.jpg",
-            "link": "/collections/sports"
+      "blocks": {
+        "item_VAKQq4": {
+          "type": "item",
+          "settings": {
+            "title": "Men",
+            "image": "shopify://shop_images/Mini-Electric-Shaver-With-Atmosphere-Lamp-LED-Display-For-Men-Portable-Travel-Painless-Cordless-Face-Beard.jpg_Q90.jpg__1.webp",
+            "link": "shopify://collections/men"
           }
-        ]
+        },
+        "item_Vfh8Yp": {
+          "type": "item",
+          "settings": {
+            "title": "Women",
+            "image": "shopify://shop_images/0-electric-callus-remover-for-feet-rechargeable-pedicure-tool-original-imagxm66hcncaxzp.webp",
+            "link": "shopify://collections/women"
+          }
+        },
+        "item_qL7TE6": {
+          "type": "item",
+          "settings": {
+            "title": "Health and Care",
+            "image": "shopify://shop_images/dfb89edc3ebdfa176439ff338ffa9cb1_jpg_960x960q80_jpg.webp",
+            "link": "shopify://collections/health-care"
+          }
+        },
+        "item_w3dFQX": {
+          "type": "item",
+          "settings": {
+            "title": "New Arrival",
+            "image": "shopify://shop_images/i-need-a-n-image-for-my-electronics-gadgets-store-for-new-arribal-collection.png",
+            "link": "shopify://collections/new-arrivals"
+          }
+        }
+      },
+      "block_order": [
+        "item_VAKQq4",
+        "item_Vfh8Yp",
+        "item_qL7TE6",
+        "item_w3dFQX"
+      ],
+      "settings": {
+        "title": "Premium Categories",
+        "items_per_row": 4
       }
     },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Best Sellers",
-        "collection": "best-sellers"
+        "title": "Flagship Products",
+        "collection": "new-arrivals",
+        "products_per_row": 4,
+        "limit": 8,
+        "description": "Curated selection of cutting-edge technology and premium innovations",
+        "show_description": true,
+        "show_view_all": true
       }
     },
     "premium-footer": {
       "type": "premium-footer",
       "settings": {
-        "newsletter_title": "Join Our Community",
-        "newsletter_subtitle": "Get exclusive access to new products and special offers"
+        "newsletter_title": "Stay Connected",
+        "newsletter_subtitle": "Be the first to discover breakthrough innovations and exclusive tech releases"
       }
+    },
+    "1776438590b90fe81c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_657034e_VVjAGU": {
+          "type": "ai_gen_block_657034e",
+          "settings": {
+            "collection": "digital-products-example-products",
+            "products_to_show": 8,
+            "show_heading": true,
+            "heading": "Featured Collection",
+            "subtitle": "Discover our premium selection",
+            "heading_size": 42,
+            "subtitle_size": 16,
+            "columns_desktop": 4,
+            "grid_gap": 24,
+            "section_padding": 60,
+            "desktop_width_percent": 100,
+            "card_background": "rgba(18, 18, 18, 0.6)",
+            "card_border_color": "rgba(255, 255, 255, 0.1)",
+            "card_border_radius": 16,
+            "blur_intensity": 10,
+            "background_color": "#000000",
+            "heading_color": "#FFFFFF",
+            "subtitle_color": "#CCCCCC",
+            "product_title_color": "#FFFFFF",
+            "neon_accent_color": "#00FFFF",
+            "secondary_neon_color": "#BF00FF",
+            "product_title_size": 16,
+            "price_size": 20,
+            "show_add_to_cart": true,
+            "button_text": "Add to Cart",
+            "button_text_color": "#000000",
+            "button_text_size": 13,
+            "button_border_radius": 8
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_657034e_VVjAGU"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "hero-showcase",
     "dynamic-grid",
     "featured-collection",
-    "premium-footer"
+    "premium-footer",
+    "1776438590b90fe81c"
   ]
 }
