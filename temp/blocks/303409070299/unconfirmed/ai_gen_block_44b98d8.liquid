@@ -1,6 +1,794 @@
+{% doc %}
+  @prompt
+    A magazine-style editorial layout
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-magazine-layout-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-magazine-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+    margin-bottom: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-magazine-featured-{{ ai_gen_id }} {
+    grid-column: span 8;
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+    background-color: {{ block.settings.card_background }};
+  }
+
+  .ai-magazine-featured-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-magazine-featured-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-magazine-featured-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-magazine-featured-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .ai-magazine-featured-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.content_padding }}px;
+  }
+
+  .ai-magazine-category-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 6px 16px;
+    background-color: {{ block.settings.category_bg_color }};
+    color: {{ block.settings.category_text_color }};
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .ai-magazine-featured-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.featured_title_size }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-magazine-featured-excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.excerpt_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.excerpt_color }};
+    margin-bottom: 20px;
+  }
+
+  .ai-magazine-meta-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    color: {{ block.settings.meta_color }};
+  }
+
+  .ai-magazine-author-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-magazine-sidebar-{{ ai_gen_id }} {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-magazine-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-magazine-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-magazine-card-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-magazine-card-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-magazine-card-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  .ai-magazine-card-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.content_padding }}px;
+    flex-grow: 1;
+  }
+
+  .ai-magazine-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 12px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-magazine-card-excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_excerpt_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.excerpt_color }};
+    margin-bottom: 12px;
+  }
+
+  .ai-magazine-read-more-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+    transition: gap 0.3s ease;
+  }
+
+  .ai-magazine-read-more-{{ ai_gen_id }}:hover {
+    gap: 10px;
+  }
+
+  .ai-magazine-secondary-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-magazine-secondary-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-magazine-secondary-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-magazine-secondary-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-magazine-secondary-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-magazine-secondary-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 120px;
+    max-height: 120px;
+  }
+
+  .ai-magazine-secondary-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.content_padding }}px;
+  }
+
+  .ai-magazine-secondary-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.secondary_title_size }}px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+    color: {{ block.settings.text_color }};
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-magazine-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-magazine-featured-{{ ai_gen_id }},
+    .ai-magazine-sidebar-{{ ai_gen_id }} {
+      grid-column: span 1;
+    }
+
+    .ai-magazine-secondary-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-magazine-layout-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-magazine-featured-image-{{ ai_gen_id }} {
+      height: 300px;
+    }
+
+    .ai-magazine-featured-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.featured_title_size | times: 0.7 }}px;
+    }
+
+    .ai-magazine-secondary-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstyle %}
+
+<magazine-editorial-{{ ai_gen_id }}
+  class="ai-magazine-layout-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-magazine-grid-{{ ai_gen_id }}">
+    <article class="ai-magazine-featured-{{ ai_gen_id }}">
+      <div class="ai-magazine-featured-image-{{ ai_gen_id }}">
+        {% if block.settings.featured_image %}
+          <img
+            src="{{ block.settings.featured_image | image_url: width: 1200 }}"
+            alt="{{ block.settings.featured_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.featured_image.width }}"
+            height="{{ block.settings.featured_image.height }}"
+          >
+        {% else %}
+          <div class="ai-magazine-featured-placeholder-{{ ai_gen_id }}">
+            {{ 'hero-apparel-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+      </div>
+      <div class="ai-magazine-featured-content-{{ ai_gen_id }}">
+        {% if block.settings.featured_category != blank %}
+          <span class="ai-magazine-category-{{ ai_gen_id }}">{{ block.settings.featured_category }}</span>
+        {% endif %}
+        {% if block.settings.featured_title != blank %}
+          <h2 class="ai-magazine-featured-title-{{ ai_gen_id }}">{{ block.settings.featured_title }}</h2>
+        {% endif %}
+        {% if block.settings.featured_excerpt != blank %}
+          <div class="ai-magazine-featured-excerpt-{{ ai_gen_id }}">{{ block.settings.featured_excerpt }}</div>
+        {% endif %}
+        <div class="ai-magazine-meta-{{ ai_gen_id }}">
+          {% if block.settings.featured_author != blank %}
+            <div class="ai-magazine-author-{{ ai_gen_id }}">
+              <span>By {{ block.settings.featured_author }}</span>
+            </div>
+          {% endif %}
+          {% if block.settings.featured_date != blank %}
+            <span>{{ block.settings.featured_date }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+
+    <aside class="ai-magazine-sidebar-{{ ai_gen_id }}">
+      {% for i in (1..2) %}
+        {% liquid
+          assign image_key = 'sidebar_image_' | append: i
+          assign category_key = 'sidebar_category_' | append: i
+          assign title_key = 'sidebar_title_' | append: i
+          assign excerpt_key = 'sidebar_excerpt_' | append: i
+          assign link_key = 'sidebar_link_' | append: i
+
+          assign sidebar_image = block.settings[image_key]
+          assign sidebar_category = block.settings[category_key]
+          assign sidebar_title = block.settings[title_key]
+          assign sidebar_excerpt = block.settings[excerpt_key]
+          assign sidebar_link = block.settings[link_key]
+        %}
+
+        <article class="ai-magazine-card-{{ ai_gen_id }}">
+          <div class="ai-magazine-card-image-{{ ai_gen_id }}">
+            {% if sidebar_image %}
+              <img
+                src="{{ sidebar_image | image_url: width: 600 }}"
+                alt="{{ sidebar_image.alt | escape }}"
+                loading="lazy"
+                width="{{ sidebar_image.width }}"
+                height="{{ sidebar_image.height }}"
+              >
+            {% else %}
+              <div class="ai-magazine-card-placeholder-{{ ai_gen_id }}">
+                {{ 'product-apparel-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+          <div class="ai-magazine-card-content-{{ ai_gen_id }}">
+            {% if sidebar_category != blank %}
+              <span class="ai-magazine-category-{{ ai_gen_id }}">{{ sidebar_category }}</span>
+            {% endif %}
+            {% if sidebar_title != blank %}
+              <h3 class="ai-magazine-card-title-{{ ai_gen_id }}">{{ sidebar_title }}</h3>
+            {% endif %}
+            {% if sidebar_excerpt != blank %}
+              <p class="ai-magazine-card-excerpt-{{ ai_gen_id }}">{{ sidebar_excerpt }}</p>
+            {% endif %}
+            {% if sidebar_link != blank %}
+              <a href="{{ sidebar_link }}" class="ai-magazine-read-more-{{ ai_gen_id }}">
+                Read more
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </aside>
+  </div>
+
+  <div class="ai-magazine-secondary-grid-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign secondary_image_key = 'secondary_image_' | append: i
+        assign secondary_category_key = 'secondary_category_' | append: i
+        assign secondary_title_key = 'secondary_title_' | append: i
+        assign secondary_link_key = 'secondary_link_' | append: i
+
+        assign secondary_image = block.settings[secondary_image_key]
+        assign secondary_category = block.settings[secondary_category_key]
+        assign secondary_title = block.settings[secondary_title_key]
+        assign secondary_link = block.settings[secondary_link_key]
+      %}
+
+      <article class="ai-magazine-secondary-card-{{ ai_gen_id }}">
+        <div class="ai-magazine-secondary-image-{{ ai_gen_id }}">
+          {% if secondary_image %}
+            <img
+              src="{{ secondary_image | image_url: width: 600 }}"
+              alt="{{ secondary_image.alt | escape }}"
+              loading="lazy"
+              width="{{ secondary_image.width }}"
+              height="{{ secondary_image.height }}"
+            >
+          {% else %}
+            <div class="ai-magazine-secondary-placeholder-{{ ai_gen_id }}">
+              {{ 'collection-apparel-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="ai-magazine-secondary-content-{{ ai_gen_id }}">
+          {% if secondary_category != blank %}
+            <span class="ai-magazine-category-{{ ai_gen_id }}">{{ secondary_category }}</span>
+          {% endif %}
+          {% if secondary_title != blank %}
+            {% if secondary_link != blank %}
+              <a href="{{ secondary_link }}" style="text-decoration: none;">
+                <h3 class="ai-magazine-secondary-title-{{ ai_gen_id }}">{{ secondary_title }}</h3>
+              </a>
+            {% else %}
+              <h3 class="ai-magazine-secondary-title-{{ ai_gen_id }}">{{ secondary_title }}</h3>
+            {% endif %}
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</magazine-editorial-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MagazineEditorial{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define('magazine-editorial-{{ ai_gen_id }}', MagazineEditorial{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Magazine editorial layout",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Featured article"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "featured_category",
+      "label": "Category",
+      "default": "Featured"
+    },
+    {
+      "type": "text",
+      "id": "featured_title",
+      "label": "Title",
+      "default": "The Future of Luxury Design"
+    },
+    {
+      "type": "textarea",
+      "id": "featured_excerpt",
+      "label": "Excerpt",
+      "default": "Explore the intersection of minimalism and opulence in modern editorial design."
+    },
+    {
+      "type": "text",
+      "id": "featured_author",
+      "label": "Author",
+      "default": "Editorial Team"
+    },
+    {
+      "type": "text",
+      "id": "featured_date",
+      "label": "Date",
+      "default": "April 17, 2026"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar article 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "sidebar_image_1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_category_1",
+      "label": "Category",
+      "default": "Trends"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_title_1",
+      "label": "Title",
+      "default": "Neon Aesthetics in Modern Web"
+    },
+    {
+      "type": "textarea",
+      "id": "sidebar_excerpt_1",
+      "label": "Excerpt",
+      "default": "How vibrant accents are reshaping digital experiences."
+    },
+    {
+      "type": "url",
+      "id": "sidebar_link_1",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar article 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "sidebar_image_2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_category_2",
+      "label": "Category",
+      "default": "Design"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_title_2",
+      "label": "Title",
+      "default": "Glassmorphism: A Deep Dive"
+    },
+    {
+      "type": "textarea",
+      "id": "sidebar_excerpt_2",
+      "label": "Excerpt",
+      "default": "Understanding the frosted glass effect in UI design."
+    },
+    {
+      "type": "url",
+      "id": "sidebar_link_2",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary article 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "secondary_image_1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "secondary_category_1",
+      "label": "Category",
+      "default": "Insights"
+    },
+    {
+      "type": "text",
+      "id": "secondary_title_1",
+      "label": "Title",
+      "default": "Typography Trends 2026"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link_1",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary article 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "secondary_image_2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "secondary_category_2",
+      "label": "Category",
+      "default": "Tech"
+    },
+    {
+      "type": "text",
+      "id": "secondary_title_2",
+      "label": "Title",
+      "default": "Performance Meets Beauty"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link_2",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary article 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "secondary_image_3",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "secondary_category_3",
+      "label": "Category",
+      "default": "Culture"
+    },
+    {
+      "type": "text",
+      "id": "secondary_title_3",
+      "label": "Title",
+      "default": "The Art of Minimalism"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link_3",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "featured_title_size",
+      "label": "Featured title size",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Card title size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "secondary_title_size",
+      "label": "Secondary title size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "excerpt_size",
+      "label": "Excerpt size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_excerpt_size",
+      "label": "Card excerpt size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "excerpt_color",
+      "label": "Excerpt",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "meta_color",
+      "label": "Meta",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "category_bg_color",
+      "label": "Category background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "category_text_color",
+      "label": "Category text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link",
+      "default": "#007AFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Magazine editorial layout"
+    }
+  ]
+}
 {% endschema %}
